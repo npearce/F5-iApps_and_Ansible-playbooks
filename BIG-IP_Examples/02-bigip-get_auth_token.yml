@@ -1,0 +1,17 @@
+- name: Request Auth Token
+  hosts: localhost
+  tasks:
+    - name: Posting Credentials
+      uri:
+        url: https://10.0.0.167/mgmt/shared/authn/login
+        validate_certs: no
+        method: POST
+        user: admin
+        password: admin
+        body: { "username":"admin", "password":"admin", "loginProviderName":"tmos" }
+        return_content: yes
+        body_format: json
+      register: auth_token
+
+    - name: Auth Token is
+      debug: msg={{auth_token}}
