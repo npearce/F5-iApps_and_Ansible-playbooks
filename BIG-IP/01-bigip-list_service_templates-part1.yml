@@ -1,13 +1,9 @@
 ---
-###### Variables to be passed to this playbook ######
+###### No variables need to be passed to this playbook ######
 #
-#  username: [BIG-IP username]
-#  password: [BIG-IP password]
 #  inventory_hostname: This is a built-on variable. You don't need to pass this in.
 #
-#  Examples:
-#  username: admin
-#  password: admin
+#  iApps_list: created by 'register:' to story the response
 #
 ###### Author Nathan Pearce: n.pearce@f5.com ######
 
