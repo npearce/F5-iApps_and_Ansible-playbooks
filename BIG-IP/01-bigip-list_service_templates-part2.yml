@@ -17,21 +17,21 @@
   connection: local
   tasks:
 
-    - name: Query iApp resource via BIG-IP REST API
-        uri:
-          url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
-          validate_certs: no
-          user: {{username}}
-          password: {{password}}
-          return_content: yes
-        register: iapps_list
+  - name: Query iApp resource via BIG-IP REST API
+    uri:
+      url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
+      validate_certs: no
+      user: {{username}}
+      password: {{password}}
+      return_content: yes
+    register: iapps_list
 
 ## Example of how to look for a specific string in the response using a 'when' statement.
-    - name: Check appsvcs_integration_v2.0_001 IS in response
-      debug: msg="'f5.http' iApp found"
-      when: '"f5.http" in (iapps_list.content|from_json)["items"]'
+  - name: Check appsvcs_integration_v2.0_001 IS in response
+    debug: msg="'f5.http' iApp found"
+    when: '"f5.http" in (iapps_list.content|from_json)["items"]'
 
 ## Example of check a specific string is NOT in the response using a 'when' statement.
-    - name: Check f5.http IS NOT in response
-      debug: msg="'f5.http' iApp not found"
-      when: '"f5.http" not in (iapps_list.content|from_json)["items"]'
+  - name: Check f5.http IS NOT in response
+    debug: msg="'f5.http' iApp not found"
+    when: '"f5.http" not in (iapps_list.content|from_json)["items"]'

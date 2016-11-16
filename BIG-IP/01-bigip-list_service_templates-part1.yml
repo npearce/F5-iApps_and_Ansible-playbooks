@@ -16,14 +16,14 @@
   connection: local
   tasks:
 
-    - name: Query iApp resource via BIG-IP REST API
-        uri:
-          url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
-          validate_certs: no
-          user: {{username}}
-          password: {{password}}
-          return_content: yes
-        register: iapps_list
+  - name: Query iApp resource via BIG-IP REST API
+    uri:
+      url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
+      validate_certs: no
+      user: {{username}}
+      password: {{password}}
+      return_content: yes
+    register: iapps_list
 
-    - name: Print response
-      debug: msg="{{(iapps_list.content|from_json)["items"]}}"
+  - name: Print response
+    debug: msg="{{(iapps_list.content|from_json)["items"]}}"

@@ -1,7 +1,7 @@
 ## A Very basic 'test' playbook
 
 - name: Hello World Sample
-  hosts: all
+  hosts: localhost
   tasks:
     - name: Hello Message
       debug:
