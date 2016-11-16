@@ -1,0 +1,29 @@
+---
+###### Variables to be passed to this playbook ######
+#
+#  username: [BIG-IP username]
+#  password: [BIG-IP password]
+#  inventory_hostname: This is a built-on variable. You don't need to pass this in.
+#
+#  Examples:
+#  username: admin
+#  password: admin
+#
+###### Author Nathan Pearce: n.pearce@f5.com ######
+
+- name: Retrieve a list of iApps installed on F5 BIG-IP
+  hosts: bigips
+  connection: local
+  tasks:
+
+    - name: Query iApp resource via BIG-IP REST API
+        uri:
+          url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
+          validate_certs: no
+          user: {{username}}
+          password: {{password}}
+          return_content: yes
+        register: iapps_list
+
+    - name: Print response
+      debug: msg="{{(iapps_list.content|from_json)["items"]}}"

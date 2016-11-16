@@ -1,0 +1,79 @@
+---
+###### Variables to be passed to this playbook ######
+#
+#  appsvcs_file: [iApp file name]
+#  appsvcs_source: [URL to the iApp]
+#  appsvcs_ver: [iApp version as reported via BIG-IP REST API]
+#
+#  Examples:
+#  appsvcs_file: appsvcs_integration_v2.0-001_001.tmpl
+#  appsvcs_source: https://raw.githubusercontent.com/npearce/F5-iWorkflow_Ansible-playbooks/master/appsvcs_integration_v2.0-001_001.tmpl
+#  appsvcs_ver: appsvcs_integration_v2.0_001
+#
+###### Author Nathan Pearce: n.pearce@f5.com ######
+
+- name: URL request
+  connection: local
+  gather_facts: no
+  hosts: bigips
+  tasks:
+    - name: Get the templates
+      uri:
+        url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
+        validate_certs: no
+        user: admin
+        password: admin
+        return_content: yes
+      register: iapps_list
+
+    - name: Check if {{appsvcs_ver}} is installed
+      fail: msg="{{ appsvcs_ver }} found.  Exiting!"
+      when: '"{{ appsvcs_ver }}" in (iapps_list.content|from_json)["items"]'
+
+    - name: Check ISN't response
+      debug: msg="{{ appsvcs_ver }} not found.  Installing!"
+      when: '"{{ appsvcs_ver }}" not in (iapps_list.content|from_json)["items"]'
+
+- name: install
+  hosts: bigips
+  tasks:
+    - name: Push iApp to BIG-IP
+      get_url:
+        validate_certs: no
+        url: "{{appsvcs_source}}"
+        dest: /var/tmp/
+
+    - name: "Install iApp"
+      shell: "tmsh load /sys application template /var/tmp/{{ appsvcs_file }}"
+
+- name: Verify {{appsvcs_file}} Installation
+  hosts: bigips
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Get the templates
+      uri:
+        url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
+        validate_certs: no
+        user: admin
+        password: admin
+        return_content: yes
+      register: iapps_list
+
+    - name: Check ISN't response
+      fail: msg="{{ appsvcs_ver }} not found.  Installation Failed!"
+      when: '"{{ appsvcs_ver }}" not in (iapps_list.content|from_json)["items"]'
+
+    - name: Check if {{appsvcs_ver}} is installed
+      debug: msg="{{ appsvcs_ver }} found.  Installation Successful!"
+      when: '"{{ appsvcs_ver }}" in (iapps_list.content|from_json)["items"]'
+
+- name: Success cleanup
+  hosts: bigips
+  gather_facts: no
+  tasks:
+    - name: deleting {{appsvcs_file}}
+      file:
+        path='/var/tmp/{{appsvcs_file}}'
+        state=absent
+        force=true

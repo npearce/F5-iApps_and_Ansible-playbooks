@@ -1,0 +1,37 @@
+---
+###### Variables to be passed to this playbook ######
+#
+#  appsvcs_file: [iApp file name]
+#  appsvcs_source: [URL to the iApp]
+#  appsvcs_ver: [iApp version as reported via BIG-IP REST API]
+#
+#  Examples:
+#  appsvcs_file: appsvcs_integration_v2.0-001_001.tmpl
+#  appsvcs_source: https://raw.githubusercontent.com/npearce/F5-iWorkflow_Ansible-playbooks/master/appsvcs_integration_v2.0-001_001.tmpl
+#  appsvcs_ver: appsvcs_integration_v2.0_001
+#
+###### Author Nathan Pearce: n.pearce@f5.com ######
+
+- name: Retrieve a list of iApps installed on F5 BIG-IP
+  hosts: bigips
+  connection: local
+  tasks:
+
+    - name: Query iApp resource via BIG-IP REST API
+        uri:
+          url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
+          validate_certs: no
+          user: {{username}}
+          password: {{password}}
+          return_content: yes
+        register: iapps_list
+
+## Example of how to look for a specific string in the response using a 'when' statement.
+    - name: Check appsvcs_integration_v2.0_001 IS in response
+      debug: msg="'f5.http' iApp found"
+      when: '"f5.http" in (iapps_list.content|from_json)["items"]'
+
+## Example of check a specific string is NOT in the response using a 'when' statement.
+    - name: Check f5.http IS NOT in response
+      debug: msg="'f5.http' iApp not found"
+      when: '"f5.http" not in (iapps_list.content|from_json)["items"]'

@@ -38,7 +38,6 @@ The install instructions gave me an outdated EPEL library.
 1. Create a new directory under `/var/lib/awx/projects/`  (in this project we will use 'myProject')
 
 
-
 #Exercise 1 - Add a BIG-IP to the inventory
 1. Navigate to the Ansible Tower 'Inventories' section.
 2. Select the 'Demo' inventory.

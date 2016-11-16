@@ -1,17 +1,36 @@
+---
+###### Variables to be passed to this playbook ######
+#
+#  username: [BIG-IP username]
+#  password: [BIG-IP password]
+#  inventory_hostname: This is a built-on variable. You don't need to pass this in.
+#
+#  Examples:
+#  username: admin
+#  password: admin
+#
+###### Author Nathan Pearce: n.pearce@f5.com ######
+
 - name: Request Auth Token
   hosts: localhost
+  connection: local
   tasks:
     - name: Posting Credentials
       uri:
-        url: https://10.0.0.167/mgmt/shared/authn/login
+        url: https://{{ inventory_hostname }}/mgmt/shared/authn/login
         validate_certs: no
         method: POST
-        user: admin
-        password: admin
-        body: { "username":"admin", "password":"admin", "loginProviderName":"tmos" }
+        user: {{ username }}
+        password: {{ password }}
+        body: { "username":"{{ username }}", "password":"{{ password }}", "loginProviderName":"tmos" }
         return_content: yes
         body_format: json
       register: auth_token
 
-    - name: Auth Token is
-      debug: msg={{auth_token}}
+# print the full output of the response
+    - name: Full output
+      debug: msg={{ (auth_token.content|from_json) }}
+
+# Of the response, print only the token
+    - name: Return the token
+      debug: msg={{(auth_token.content|from_json)["token"]["token"]}}
