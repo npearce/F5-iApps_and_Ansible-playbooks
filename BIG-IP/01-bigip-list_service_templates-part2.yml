@@ -1,14 +1,12 @@
 ---
 ###### Variables to be passed to this playbook ######
 #
-#  appsvcs_file: [iApp file name]
-#  appsvcs_source: [URL to the iApp]
-#  appsvcs_ver: [iApp version as reported via BIG-IP REST API]
+#  username: [BIG-IP username]
+#  password: [BIG-IP password]
 #
 #  Examples:
-#  appsvcs_file: appsvcs_integration_v2.0-001_001.tmpl
-#  appsvcs_source: https://raw.githubusercontent.com/npearce/F5-iWorkflow_Ansible-playbooks/master/appsvcs_integration_v2.0-001_001.tmpl
-#  appsvcs_ver: appsvcs_integration_v2.0_001
+#  username: admin
+#  password: admin
 #
 ###### Author Nathan Pearce: n.pearce@f5.com ######
 
