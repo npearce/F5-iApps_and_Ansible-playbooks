@@ -46,19 +46,14 @@ The install instructions gave me an outdated EPEL library.
 5. Click 'Save'
 
 
-#Exercise 2 - Import the L4-L7 iApp playbook from Github
-Import the F5 L4-L7 Playbook from Github.com into Ansible:
+#Exercise 2 - Import the L4-L7 iApp playbooks from Github
+Import the F5 L4-L7 Playbooks from Github.com into Ansible Tower:
 
 1. In Ansible Tower, navigate to the 'Project' tab.
 2. Create a new project named 'F5 iApp Playbook'.
 3. Select the SCM type 'Git'
-4. Enter the SCM URL `http://github.com/`
+4. Enter the SCM URL `https://github.com/npearce/F5-iApps_and_Ansible-playbooks`
 5. Click 'Save'
 6. Click the download (icon with a cloud) button next to the 'F5 Playbooks' project.
 
-#Exercise 3
-In the playbook,
-https://raw.githubusercontent.com/npearce/F5-iWorkflow_Ansible-playbooks/master/appsvcs_integration_v2.0-001_001.tmpl
-
-
-#Exercise 1
+#Exercise 3 - add some Credentials

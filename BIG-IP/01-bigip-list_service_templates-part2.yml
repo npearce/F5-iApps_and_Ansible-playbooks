@@ -20,8 +20,8 @@
     uri:
       url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
       validate_certs: no
-      user: "{{username}}"
-      password: "{{password}}"
+      user: "{{ username }}"
+      password: "{{ password }}"
       return_content: yes
     register: iapps_list
 

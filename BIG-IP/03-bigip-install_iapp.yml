@@ -13,7 +13,7 @@
 # Author: Nathan Pearce
 ###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
 
-- name: URL request
+- name: Check {{ appsvcs _ver }} isn't already there
   connection: local
   gather_facts: no
   hosts: bigips
@@ -22,20 +22,22 @@
       uri:
         url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
         validate_certs: no
-        user: admin
-        password: admin
+        user: "{{ username}}"
+        password: "{{ password }}"
         return_content: yes
       register: iapps_list
 
-    - name: Check if {{appsvcs_ver}} is installed
-      fail: msg="{{ appsvcs_ver }} found.  Exiting!"
+## Example of how to look for a specific string in the response using a 'when' statement.
+    - name: Check {{ appsvcs_ver }} IS in response
+      fail: msg="{{ appsvcs_ver }} found. Aborting installation!"
       when: '"{{ appsvcs_ver }}" in (iapps_list.content|from_json)["items"]'
 
-    - name: Check ISN't response
-      debug: msg="{{ appsvcs_ver }} not found.  Installing!"
+## Example of check a specific string is NOT in the response using a 'when' statement.
+    - name: Check {{ appsvcs_ver }} IS NOT in response
+      debug: msg="'{{ appsvcs_ver }}' not found"
       when: '"{{ appsvcs_ver }}" not in (iapps_list.content|from_json)["items"]'
 
-- name: install
+- name: Perform the installation
   hosts: bigips
   tasks:
     ## This is where we fetch the iApp from a HTTP link and push it to the BIG-IP
@@ -58,8 +60,8 @@
       uri:
         url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
         validate_certs: no
-        user: admin
-        password: admin
+        user: "{{ username}}"
+        password: "{{ password }}"
         return_content: yes
       register: iapps_list
 

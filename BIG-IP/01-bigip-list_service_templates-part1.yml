@@ -14,7 +14,7 @@
 
   - name: Query iApp resource via BIG-IP REST API
     uri:
-      url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
+      url: https://{{ inventory_hostname }}/mgmt/tm/cloud/templates/iapp/
       validate_certs: no
       user: admin
       password: password
@@ -22,4 +22,4 @@
     register: iapps_list
 
   - name: Print response
-    debug: msg="{{(iapps_list.content|from_json)["items"]}}"
+    debug: msg="{{ (iapps_list.content|from_json)["items"] }}"

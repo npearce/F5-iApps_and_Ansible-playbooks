@@ -1,42 +1,215 @@
 {
-  "name": "myService2",
+  "name": "myTest2",
   "template": "appsvcs_integration_v2.0_001",
   "vars": {
-    "iapp__strictUpdates": "enabled",
-    "iapp__routeDomain": "auto",
+    "extensions__Field1": "",
+    "extensions__Field2": "",
+    "extensions__Field3": "",
+    "feature__easyL4Firewall": "auto",
+    "feature__insertXForwardedFor": "auto",
+    "feature__redirectToHTTPS": "auto",
+    "feature__securityEnableHSTS": "disabled",
+    "feature__sslEasyCipher": "disabled",
+    "feature__statsHTTP": "auto",
+    "feature__statsTLS": "auto",
+    "iapp__apmDeployMode": "preserve-bypass",
+    "iapp__appStats": "enabled",
+    "iapp__asmDeployMode": "preserve-bypass",
+    "iapp__logLevel": "7",
     "iapp__mode": "auto",
-    "pool__LbMethod": "round-robin",
-    "pool__MemberDefaultPort": "80",
-    "pool__Monitor": "/Common/http",
-    "pool__Name": "",
-    "pool__addr": "10.128.10.22",
+    "iapp__routeDomain": "auto",
+    "iapp__strictUpdates": "enabled",
+    "l7policy__defaultASM": "bypass",
+    "l7policy__defaultL7DOS": "bypass",
+    "l7policy__strategy": "/Common/first-match",
+    "pool__DefaultPoolIndex": "0",
+    "pool__MemberDefaultPort": "",
+    "pool__addr": "10.128.10.23",
     "pool__mask": "255.255.255.255",
     "pool__port": "80",
-    "vs__Description": "vsdescr",
-    "vs__Name": "",
-    "vs__ProfileHTTP": "/Common/http",
+    "vs__AdvOptions": "",
+    "vs__AdvPolicies": "",
+    "vs__AdvProfiles": "",
+    "vs__ConnectionLimit": "0",
+    "vs__Description": "",
+    "vs__IpProtocol": "tcp",
+    "vs__Irules": "",
+    "vs__Name": "myTest2_default_vs_80",
+    "vs__OptionConnectionMirroring": "disabled",
+    "vs__OptionSourcePort": "preserve",
+    "vs__ProfileAccess": "",
+    "vs__ProfileAnalytics": "",
     "vs__ProfileClientProtocol": "/Common/tcp-wan-optimized",
+    "vs__ProfileClientSSL": "",
+    "vs__ProfileClientSSLAdvOptions": "",
+    "vs__ProfileClientSSLCert": "",
+    "vs__ProfileClientSSLChain": "",
+    "vs__ProfileClientSSLCipherString": "DEFAULT",
+    "vs__ProfileClientSSLKey": "",
+    "vs__ProfileCompression": "",
+    "vs__ProfileConnectivity": "",
+    "vs__ProfileDefaultPersist": "",
+    "vs__ProfileFallbackPersist": "",
+    "vs__ProfileHTTP": "",
+    "vs__ProfileOneConnect": "",
+    "vs__ProfilePerRequest": "",
+    "vs__ProfileRequestLogging": "",
+    "vs__ProfileSecurityDoS": "",
+    "vs__ProfileSecurityIPBlacklist": "none",
+    "vs__ProfileSecurityLogProfiles": "",
     "vs__ProfileServerProtocol": "/Common/tcp-lan-optimized",
+    "vs__ProfileServerSSL": "",
+    "vs__RouteAdv": "disabled",
     "vs__SNATConfig": "automap",
-    "vs__SourceAddress": "0.0.0.0/0"
+    "vs__SourceAddress": "0.0.0.0/0",
+    "vs__VirtualAddrAdvOptions": ""
   },
   "tables": {
-    "pool__Members": {
+    "feature__easyL4FirewallBlacklist": {
       "columns": [
-        "IPAddress",
-        "Port",
-        "State"
+        "CIDRRange"
       ],
       "rows": [
         [
-          "10.128.20.2",
-          "8080",
-          "enabled"
+          ""
+        ]
+      ]
+    },
+    "feature__easyL4FirewallSourceList": {
+      "columns": [
+        "CIDRRange"
+      ],
+      "rows": [
+        [
+          "0.0.0.0/0"
+        ]
+      ]
+    },
+    "l7policy__rulesAction": {
+      "columns": [
+        "Group",
+        "Target",
+        "Parameter"
+      ],
+      "rows": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ]
+    },
+    "l7policy__rulesMatch": {
+      "columns": [
+        "Group",
+        "Operand",
+        "Negate",
+        "Condition",
+        "Value",
+        "CaseSensitive",
+        "Missing"
+      ],
+      "rows": [
+        [
+          "",
+          "",
+          "no",
+          "equals",
+          "",
+          "no",
+          "no"
+        ]
+      ]
+    },
+    "monitor__Monitors": {
+      "columns": [
+        "Index",
+        "Name",
+        "Type",
+        "Options"
+      ],
+      "rows": [
+        [
+          "0",
+          "/Common/http",
+          "",
+          ""
+        ]
+      ]
+    },
+    "pool__Members": {
+      "columns": [
+        "Index",
+        "IPAddress",
+        "Port",
+        "ConnectionLimit",
+        "Ratio",
+        "PriorityGroup",
+        "State",
+        "AdvOptions"
+      ],
+      "rows": [
+        [
+          "0",
+          "/Common/10.128.20.1",
+          "80",
+          "0",
+          "1",
+          "0",
+          "enabled",
+          ""
         ],
         [
-          "10.128.20.1",
-          "8080",
-          "enabled"
+          "0",
+          "/Common/10.128.20.2",
+          "80",
+          "0",
+          "1",
+          "0",
+          "enabled",
+          ""
+        ]
+      ]
+    },
+    "pool__Pools": {
+      "columns": [
+        "Index",
+        "Name",
+        "Description",
+        "LbMethod",
+        "Monitor",
+        "AdvOptions"
+      ],
+      "rows": [
+        [
+          "0",
+          "",
+          "",
+          "round-robin",
+          "",
+          ""
+        ]
+      ]
+    },
+    "vs__BundledItems": {
+      "columns": [
+        "Resource"
+      ],
+      "rows": [
+        [
+          ""
+        ]
+      ]
+    },
+    "vs__Listeners": {
+      "columns": [
+        "Listener",
+        "Destination"
+      ],
+      "rows": [
+        [
+          "",
+          ""
         ]
       ]
     }

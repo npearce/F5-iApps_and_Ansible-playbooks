@@ -251,4 +251,3 @@
     - name: Check ISN't response
       fail: msg="{{ service_name }} not found. Deployment failed. Exiting!!"
       when: '"{{ service_name }}" not in (service_list.content|from_json)["items"]'
-      
