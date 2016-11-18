@@ -10,7 +10,8 @@
 #  appsvcs_source: https://raw.githubusercontent.com/npearce/F5-iWorkflow_Ansible-playbooks/master/appsvcs_integration_v2.0-001_001.tmpl
 #  appsvcs_ver: appsvcs_integration_v2.0_001
 #
-###### Author Nathan Pearce: n.pearce@f5.com ######
+# Author: Nathan Pearce
+###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
 
 - name: URL request
   connection: local
@@ -37,19 +38,21 @@
 - name: install
   hosts: bigips
   tasks:
+    ## This is where we fetch the iApp from a HTTP link and push it to the BIG-IP
     - name: Push iApp to BIG-IP
       get_url:
         validate_certs: no
         url: "{{appsvcs_source}}"
         dest: /var/tmp/
-
+    ## Execute the tmsh command to install the iApp from /var/tmp
+    ## This is necessary because you cannot upload an iApp via the REST API.
     - name: "Install iApp"
       shell: "tmsh load /sys application template /var/tmp/{{ appsvcs_file }}"
 
+# Check that it worked by retrieving the iApp list via the REST API
 - name: Verify {{appsvcs_file}} Installation
   hosts: bigips
   connection: local
-  gather_facts: no
   tasks:
     - name: Get the templates
       uri:
@@ -68,6 +71,7 @@
       debug: msg="{{ appsvcs_ver }} found.  Installation Successful!"
       when: '"{{ appsvcs_ver }}" in (iapps_list.content|from_json)["items"]'
 
+# If ths install was successfull delete the iApp file from /var/tmp
 - name: Success cleanup
   hosts: bigips
   gather_facts: no

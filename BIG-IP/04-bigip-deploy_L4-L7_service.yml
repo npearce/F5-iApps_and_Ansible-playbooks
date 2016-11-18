@@ -1,0 +1,254 @@
+---
+###### Variables to be passed to this playbook ######
+#
+#  username: [BIG-IP username]
+#  password: [BIG-IP password]
+#  inventory_hostname: This is a built-on variable. You don't need to pass this in.
+#
+#  Examples:
+#  username: admin
+#  password: admin
+#
+# Author: Nathan Pearce
+###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
+
+- name: Verify {{ service_name }} doesn't already exists
+  connection: local
+  gather_facts: no
+  hosts: bigips
+  tasks:
+    - name: Get the L4 - L7 Service List
+      uri:
+        url: https://{{inventory_hostname}}/mgmt/tm/cloud/services/iapp/
+        validate_certs: no
+        user: "{{ username }}"
+        password: "{{ password }}"
+        return_content: yes
+      register: service_list
+
+    - name: Check if {{ service_name }} is installed
+      fail: msg="{{ service_name }} already exists.  Exiting!"
+      when: '"{{ service_name }}" in (service_list.content|from_json)["items"]'
+
+    - name: Check ISN't response
+      debug: msg="{{ service_name }} not found.  Installing!"
+      when: '"{{ service_name }}" not in (service_list.content|from_json)["items"]'
+
+- name: Deploy L4-L7 Services
+  hosts: bigips
+  connection: local
+  tasks:
+  - name: Posting values to service template
+    uri:
+      url: https://{{ inventory_hostname }}/mgmt/tm/cloud/services/iapp/
+      validate_certs: no
+      method: POST
+      user: "{{ username }}"
+      password: "{{ password }}"
+      body:
+        name: "{{ service_name }}"
+        template: appsvcs_integration_v2.0_001
+        vars:
+          extensions__Field1: ''
+          extensions__Field2: ''
+          extensions__Field3: ''
+          feature__easyL4Firewall: auto
+          feature__insertXForwardedFor: auto
+          feature__redirectToHTTPS: auto
+          feature__securityEnableHSTS: disabled
+          feature__sslEasyCipher: disabled
+          feature__statsHTTP: auto
+          feature__statsTLS: auto
+          iapp__apmDeployMode: preserve-bypass
+          iapp__appStats: enabled
+          iapp__asmDeployMode: preserve-bypass
+          iapp__logLevel: '7'
+          iapp__mode: auto
+          iapp__routeDomain: auto
+          iapp__strictUpdates: enabled
+          l7policy__defaultASM: bypass
+          l7policy__defaultL7DOS: bypass
+          l7policy__strategy: "/Common/first-match"
+          pool__DefaultPoolIndex: '0'
+          pool__MemberDefaultPort: ''
+          pool__addr: "{{ virtual_ip_address }}"
+          pool__mask: 255.255.255.255
+          pool__port: '80'
+          vs__AdvOptions: ''
+          vs__AdvPolicies: ''
+          vs__AdvProfiles: ''
+          vs__ConnectionLimit: '0'
+          vs__Description: ''
+          vs__IpProtocol: tcp
+          vs__Irules: ''
+          vs__Name: "{{ service_name }}_default_vs_80"
+          vs__OptionConnectionMirroring: disabled
+          vs__OptionSourcePort: preserve
+          vs__ProfileAccess: ''
+          vs__ProfileAnalytics: ''
+          vs__ProfileClientProtocol: "/Common/tcp-wan-optimized"
+          vs__ProfileClientSSL: ''
+          vs__ProfileClientSSLAdvOptions: ''
+          vs__ProfileClientSSLCert: ''
+          vs__ProfileClientSSLChain: ''
+          vs__ProfileClientSSLCipherString: DEFAULT
+          vs__ProfileClientSSLKey: ''
+          vs__ProfileCompression: ''
+          vs__ProfileConnectivity: ''
+          vs__ProfileDefaultPersist: ''
+          vs__ProfileFallbackPersist: ''
+          vs__ProfileHTTP: ''
+          vs__ProfileOneConnect: ''
+          vs__ProfilePerRequest: ''
+          vs__ProfileRequestLogging: ''
+          vs__ProfileSecurityDoS: ''
+          vs__ProfileSecurityIPBlacklist: none
+          vs__ProfileSecurityLogProfiles: ''
+          vs__ProfileServerProtocol: "/Common/tcp-lan-optimized"
+          vs__ProfileServerSSL: ''
+          vs__RouteAdv: disabled
+          vs__SNATConfig: automap
+          vs__SourceAddress: 0.0.0.0/0
+          vs__VirtualAddrAdvOptions: ''
+        tables:
+          feature__easyL4FirewallBlacklist:
+            columns:
+            - CIDRRange
+            rows:
+            - - ''
+          feature__easyL4FirewallSourceList:
+            columns:
+            - CIDRRange
+            rows:
+            - - 0.0.0.0/0
+          l7policy__rulesAction:
+            columns:
+            - Group
+            - Target
+            - Parameter
+            rows:
+            - - ''
+              - ''
+              - ''
+          l7policy__rulesMatch:
+            columns:
+            - Group
+            - Operand
+            - Negate
+            - Condition
+            - Value
+            - CaseSensitive
+            - Missing
+            rows:
+            - - ''
+              - ''
+              - 'no'
+              - equals
+              - ''
+              - 'no'
+              - 'no'
+          monitor__Monitors:
+            columns:
+            - Index
+            - Name
+            - Type
+            - Options
+            rows:
+            - - '0'
+              - "/Common/http"
+              - ''
+              - ''
+          pool__Members:
+            columns:
+            - Index
+            - IPAddress
+            - Port
+            - ConnectionLimit
+            - Ratio
+            - PriorityGroup
+            - State
+            - AdvOptions
+            rows:
+            - - '0'
+              - '{{ pool_member_1 }}'
+              - '80'
+              - '0'
+              - '1'
+              - '0'
+              - enabled
+              - ''
+            - - '0'
+              - '{{ pool_member_2 }}'
+              - '80'
+              - '0'
+              - '1'
+              - '0'
+              - enabled
+              - ''
+## Need to make pool memebr count dynamic. Uncomment this to use 3 pool members.
+#            - - '0'
+#              - '{{ pool_member_3 }}'
+#              - '80'
+#              - '0'
+#              - '1'
+#              - '0'
+#              - enabled
+#              - ''
+          pool__Pools:
+            columns:
+            - Index
+            - Name
+            - Description
+            - LbMethod
+            - Monitor
+            - AdvOptions
+            rows:
+            - - '0'
+              - ''
+              - ''
+              - round-robin
+              - ''
+              - ''
+          vs__BundledItems:
+            columns:
+            - Resource
+            rows:
+            - - ''
+          vs__Listeners:
+            columns:
+            - Listener
+            - Destination
+            rows:
+            - - ''
+              - ''
+      return_content: yes
+      body_format: json
+    register: post_response
+
+# print the full output of the response
+  - name: Full output
+    debug: msg="{{ (post_response|to_json) }}"
+
+# verify the installation succeeded
+- name: Verify {{ service_name }} installed
+  connection: local
+  gather_facts: no
+  hosts: bigips
+  tasks:
+    - name: Get the L4 - L7 Service List
+      uri:
+        url: https://{{inventory_hostname}}/mgmt/tm/cloud/services/iapp/
+        validate_certs: no
+        user: "{{ username }}"
+        password: "{{ password }}"
+        return_content: yes
+      register: service_list
+
+    - name: Check if {{ service_name }} is installed
+      debug: msg="{{ service_name }} found. Success!!"
+      when: '"{{ service_name }}" in (service_list.content|from_json)["items"]'
+
+    - name: Check ISN't response
+      fail: msg="{{ service_name }} not found. Deployment failed. Exiting!!"
+      when: '"{{ service_name }}" not in (service_list.content|from_json)["items"]'
+      

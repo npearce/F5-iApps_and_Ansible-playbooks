@@ -9,10 +9,11 @@
 #  username: admin
 #  password: admin
 #
-###### Author Nathan Pearce: n.pearce@f5.com ######
+# Author: Nathan Pearce
+###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
 
 - name: Request Auth Token
-  hosts: localhost
+  hosts: bigips
   connection: local
   tasks:
   - name: Posting Credentials
@@ -20,8 +21,8 @@
       url: https://{{ inventory_hostname }}/mgmt/shared/authn/login
       validate_certs: no
       method: POST
-      user: {{ username }}
-      password: {{ password }}
+      user: "{{username}}"
+      password: "{{password}}"
       body: { "username":"{{ username }}", "password":"{{ password }}", "loginProviderName":"tmos" }
       return_content: yes
       body_format: json

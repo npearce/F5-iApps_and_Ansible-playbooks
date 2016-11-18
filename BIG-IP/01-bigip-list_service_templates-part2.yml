@@ -8,7 +8,8 @@
 #  username: admin
 #  password: admin
 #
-###### Author Nathan Pearce: n.pearce@f5.com ######
+# Author: Nathan Pearce
+###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
 
 - name: Retrieve a list of iApps installed on F5 BIG-IP
   hosts: bigips
@@ -19,8 +20,8 @@
     uri:
       url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
       validate_certs: no
-      user: {{username}}
-      password: {{password}}
+      user: "{{username}}"
+      password: "{{password}}"
       return_content: yes
     register: iapps_list
 

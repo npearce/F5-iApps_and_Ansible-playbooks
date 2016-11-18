@@ -2,10 +2,10 @@
 ###### No variables need to be passed to this playbook ######
 #
 #  inventory_hostname: This is a built-on variable. You don't need to pass this in.
-#
 #  iApps_list: created by 'register:' to story the response
 #
-###### Author Nathan Pearce: n.pearce@f5.com ######
+# Author: Nathan Pearce
+###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
 
 - name: Retrieve a list of iApps installed on F5 BIG-IP
   hosts: bigips
