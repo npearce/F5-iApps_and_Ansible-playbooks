@@ -26,9 +26,9 @@
     register: iapps_list
 
 ## Example of how to look for a specific string in the response using a 'when' statement.
-  - name: Check appsvcs_integration_v2.0_001 IS in response
-    debug: msg="'appsvcs_integration' iApp found"
-    when: '"appsvcs_integration_v2.0_001" in (iapps_list.content|from_json)["items"]'
+  - name: Check 'f5.http' IS in response
+    debug: msg="'f5.http' iApp found"
+    when: '"f5.http" in (iapps_list.content|from_json)["items"]'
 
 ## Example of check a specific string is NOT in the response using a 'when' statement.
   - name: Check f5.http IS NOT in response
