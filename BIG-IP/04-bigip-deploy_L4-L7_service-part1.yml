@@ -3,11 +3,18 @@
 #
 #  username: [BIG-IP username]
 #  password: [BIG-IP password]
-#  inventory_hostname: This is a built-on variable. You don't need to pass this in.
+#  service_name: You need to give this top level object a name.
+#  virtual_ip_address: [the front end IP of the load-balancing pool]
+#  pool_member_1: [ip_address of first load-balanced server]
+#  pool_member_2: [ip_address of first load-balanced server]
 #
 #  Examples:
 #  username: admin
 #  password: admin
+#  service_name: myHTTP_Service
+#  virtual_ip_address: 10.128.10.20
+#  pool_member_1: 10.128.20.1
+#  pool_member_2: 10.128.20.2
 #
 # Author: Nathan Pearce
 ###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######

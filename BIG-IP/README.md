@@ -115,8 +115,22 @@ Following the `tmsh` installation command, we then verify that the newly install
 
 Finally, we perform a cleanup by removing the iApp that we placed into `/var/tmp` using the `get_url:` command earlier.
 
-#Exercise 4 - Deploying an L4 - L7 Service
+#Exercise 4 - Deploying an L4 - L7 Service - Part 1
+In 'BIG-IP/02-bigip-get_auth_token.yml' we introduced how to perform a REST POST. In that example we had a very simple 'POST body:' to deal with. But deploy an entire L4 - L7 service policy requires quite a bit more data. Take a look at `BIG-IP/04-bigip-deploy_L4-L7_service-part1.yml`.
 
+In exercise 02, we made the short JSON body into a string and escaped the necessary characters to keep Ansible happy. Now, imagine trying to do that to `example_data/minimum_json_post.json`. NO THANKS!!! So, here's tip to save you a lot of time! First, you advertise for an intern... Just kidding. No, you take the JSON payload and you navigate to http://www.json2yaml.com. Paste it in and 'hey presto' you've got the YAML version of the same body.
 
-Convert the JSON payload to YAML
-http://www.json2yaml.com
+Why convert it to YAML? A couple of reasons:
+* You don't have to escape a billion characters in your playbook to preserve the JSON formatting.
+* Ansible is clever enough to convert it to JSON when it performs the POST because we specified `body_format: json`. Thank you, Ansible!
+
+*NOTE: Before running this playbook, take a look at the comments at the top. I listed the variables that his template expects at run-time (with examples). If you don't provide these it will not work.*
+
+Now, if you've being paying attention, you will have noticed that we have a problem with the pool members in the playbook. It has support for two pool members by default, and a third if you uncomment it from the playbook. Well, this isn't good enough. We need to be a little more dynamic in how many pool members can be entered. We solve this problem in Part 2, below!
+
+#Exercise 4 - Deploying an L4 - L7 Service - Part 2
+You've probably noticed that we've run into a problem with the pool members. In the Playbook 'BIG-IP/04-bigip-deploy_L4-L7_service-part1.yml' we have room for two pool members which are fed in using the `pool_member_1:` and `pool_member_2:` variables. But what if you have 3 pool members, or more? We need the quantity of pool members to be dynamic and not determined by the playbook.
+
+Enter, templates! Not to be confused with the Ansible Tower 'Job Templates', Ansible templates support building configuratoins using the Jinja2.
+
+So, lets move the `body:` from the playbook and put that into a template named `deploy.j2`.

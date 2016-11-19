@@ -38,7 +38,7 @@ The install instructions gave me an outdated EPEL library.
 1. Create a new directory under `/var/lib/awx/projects/`  (in this project we will use 'myProject')
 
 
-#Exercise 1 - Add a BIG-IP to the inventory
+##Exercise 1 - Add a BIG-IP to the inventory
 1. Navigate to the Ansible Tower 'Inventories' section.
 2. Select the 'Demo' inventory.
 3. On the right-hand side, click the 'Add Host' button.
@@ -46,7 +46,7 @@ The install instructions gave me an outdated EPEL library.
 5. Click 'Save'
 
 
-#Exercise 2 - Import the L4-L7 iApp playbooks from Github
+##Exercise 2 - Import the L4-L7 iApp playbooks from Github
 Import the F5 L4-L7 Playbooks from Github.com into Ansible Tower:
 
 1. In Ansible Tower, navigate to the 'Project' tab.
@@ -56,4 +56,4 @@ Import the F5 L4-L7 Playbooks from Github.com into Ansible Tower:
 5. Click 'Save'
 6. Click the download (icon with a cloud) button next to the 'F5 Playbooks' project.
 
-#Exercise 3 - add some Credentials
+##Exercise 3 - add some Credentials

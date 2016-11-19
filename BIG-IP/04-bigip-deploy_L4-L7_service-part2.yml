@@ -1,0 +1,81 @@
+---
+###### Variables to be passed to this playbook ######
+#
+#  username: [BIG-IP username]
+#  password: [BIG-IP password]
+#  inventory_hostname: This is a built-on variable. You don't need to pass this in.
+#
+#  Examples:
+#  username: admin
+#  password: admin
+#
+# Author: Nathan Pearce
+###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
+
+- name: Verify {{ service_name }} doesn't already exists
+  connection: local
+  gather_facts: no
+  hosts: bigips
+  tasks:
+    - name: Get the L4 - L7 Service List
+      uri:
+        url: https://{{inventory_hostname}}/mgmt/tm/cloud/services/iapp/
+        validate_certs: no
+        user: "{{ username }}"
+        password: "{{ password }}"
+        return_content: yes
+      register: service_list
+
+    - name: Check if {{ service_name }} is installed
+      fail: msg="{{ service_name }} already exists.  Exiting!"
+      when: '"{{ service_name }}" in (service_list.content|from_json)["items"]'
+
+    - name: Check ISN't response
+      debug: msg="{{ service_name }} not found.  Installing!"
+      when: '"{{ service_name }}" not in (service_list.content|from_json)["items"]'
+
+    - name: build the JSON payload
+      template: src=/var/lib/awx/projects/_6__myproject/BIG-IP/template_deploy.j2 dest=/var/lib/awx/projects/_6__myproject/BIG-IP/deploy_payload.yml
+
+- name: Deploy L4-L7 Services
+  hosts: bigips
+  connection: local
+  tasks:
+  - name: Posting values to service template
+    uri:
+      url: https://{{ inventory_hostname }}/mgmt/tm/cloud/services/iapp/
+      validate_certs: no
+      method: POST
+      user: "{{ username }}"
+      password: "{{ password }}"
+      body: "{{ (lookup('template','/var/lib/awx/projects/_6__myproject/BIG-IP/deploy_payload.yml') | from_yaml) }}"
+      return_content: yes
+      body_format: json
+    register: post_response
+
+# print the full output of the response
+  - name: Full output
+    debug: msg="{{ (post_response|to_json) }}"
+
+# verify the installation succeeded
+- name: Verify {{ service_name }} installed
+  connection: local
+  gather_facts: no
+  hosts: bigips
+  tasks:
+    - name: Get the L4 - L7 Service List
+      uri:
+        url: https://{{inventory_hostname}}/mgmt/tm/cloud/services/iapp/
+        validate_certs: no
+        user: "{{ username }}"
+        password: "{{ password }}"
+        return_content: yes
+      register: service_list
+
+    - name: Check if {{ service_name }} is installed
+      debug: msg="{{ service_name }} found. Success!!"
+      when: '"{{ service_name }}" in (service_list.content|from_json)["items"]'
+
+    - name: Check ISN't response
+      fail: msg="{{ service_name }} not found. Deployment failed. Exiting!!"
+      when: '"{{ service_name }}" not in (service_list.content|from_json)["items"]'
