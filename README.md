@@ -12,8 +12,8 @@ Themes introduced in the following exercised.
 #Environment
 The Ansible Playbooks in this repository were developed using the following environment:
 
-* Ansible Tower 3.0.2 (running on CentOS 7)
-* iWorkflow v2.0.1
+* Ansible Tower 3.0.3 (running on CentOS 7)
+* iWorkflow v2.0.3 (to be released early 2017)
 * BIG-IP 12.1.1
 
 NOTE: Default install of CentOS 7 (VM w/ 4GB RAM) using the CentOS 7 DVD ISO.
@@ -21,21 +21,20 @@ NOTE: Default install of CentOS 7 (VM w/ 4GB RAM) using the CentOS 7 DVD ISO.
 For install instructions refer to the 'Ansible Tower Quick Installation Guide v3.0.3': http://docs.ansible.com/ansible-tower/latest/html/quickinstall/index.html
 
 #Getting started
+*IMPORTANT* install the 'Ansible Bundle'. When I registered for a trail license, I was sent a link to the Ansible Tower download. This assumes you know Ansible well enough to get it working with a pre-installed Ansible environment. Its not straight forward if you are new to Ansible. However, if you install the Ansible *Bundle* it will install both Ansible and Ansible Tower together and they will work immediately.
+
+This is what they sent me: https://releases.ansible.com/awx/setup/ansible-tower-setup-latest.tar.gz
+This is the Bundle that works straight away: https://releases.ansible.com/awx/setup-bundle/ansible-tower-setup-bundle-latest.el7.tar.gz
+
 ##Ansible Tower
 Once up and running, unless you're an Ansible Tower pro already, I *highly* recommend you go through the "Ansible Tower Quick Setup Guide v3.0.3" before attempting Exercise 1:
-http://docs.ansible.com/ansible-tower/3.0.2/html/quickstart/index.html
+http://docs.ansible.com/ansible-tower/3.0.3/html/quickstart/index.html
 
 ##Where do things go?
 Ansible's getting started documentation is very minimal (it assumes you already know their file/directory structure).
 
-##Get the core modules
-The install instructions gave me an outdated EPEL library.
-
-1. Create a new Project using the SCM 'git': https://github.com/ansible/ansible-modules-core
-
-
-##Create a project
-1. Create a new directory under `/var/lib/awx/projects/`  (in this project we will use 'myProject')
+##Download the playbooks from this Git Repo.
+1. Login to Ansible Tower.
 
 
 ##Exercise 1 - Add a BIG-IP to the inventory
