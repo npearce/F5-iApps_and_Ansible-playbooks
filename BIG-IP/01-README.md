@@ -82,23 +82,26 @@ NOTE: pay attention to the comments at the top of the playbook file. It says you
 
 Reading the playbook you will see that the Username and Password and now variables passed in to the playbook at the time of execution:
 
-`user: "{{ username }}"
-
-password: "{{ password }}"`
+```
+user: "{{ username }}"
+password: "{{ password }}"
+```
 
 In addition to using variables for the username and password, we have introduced some intelligence into how we handle the response. In Part 1 we printed out the entire response (the whole list of iApps). In Part 2, instead of just printing out everything we are now checking the response for a specific item.
 
 In the playbook we have two examples of doing this. A 'positive' check (see if it IS there) and a 'negative' check (see if it is NOT there). These will come in handy later.
 
-*Positive check:* First we use a `when: [something] in` which says that if you find a 'something' in the response, perform this action. In this case, the 'something' is 'f5.http', and the action to perform, if it is found, is to print a debug message.
+**Positive check:** First we use a 'when: [something] in' which says that if you find a 'something' in the response, perform this action. In this case, the 'something' is 'f5.http', and the action to perform, if it is found, is to print a debug message.
 
-`debug: msg="'f5.http' iApp found"
+```
+debug: msg="'f5.http' iApp found"
+when: '"f5.http" in (iapps_list.content|from_json)["items"]'
+```
 
-when: '"f5.http" in (iapps_list.content|from_json)["items"]'`
+**Negative check:** The second evaluation we are performing against the response it to check if the response 'DOES NOT' include something. Notice the 'not' in the 'when:' statement below.  
 
-*Negative check:*  The second evaluation we are performing against the response it to check if the response 'DOES NOT' include something. Notice the `not` in the `when:` statement below.  
-
-```debug: msg="'f5.http' iApp not found"
+```
+debug: msg="'f5.http' iApp not found"
 when: '"f5.http" not in (iapps_list.content|from_json)["items"]'
 ```
 
@@ -111,7 +114,8 @@ More on these later...
 4. Scroll down to 'Extra Variables'.
 5. After the `---`, on new lines, enter the "key: value" pairs (assuming your username is 'admin' and password is 'admin'):
 
-```username: admin
+```
+username: admin
 password: admin
 ```
 
@@ -124,7 +128,8 @@ You should see a far more concise response.
 #Exercise 1 – Part 3 - More variables
 In "BIG-IP/01-bigip-list_service_templates-part3.yml" we're combining a variable to the BIG-IP response handling, '{{ appsvcs_ver }}'. By doing this, we no longer have the [something] of 'Part 2' hard-coded into the playbook. Instead we can pass the '{{ appsvcs_ver }}' in at execution time. As your playbooks get longer, and more complex, these shortcuts become increasingly important. Note how many times '{{ appsvcs_ver }}' is referenced in this single playbook task:
 
-```- name: Check {{ appsvcs_ver }} IS in response
+```
+- name: Check {{ appsvcs_ver }} IS in response
   debug: msg="{{ appsvcs_ver }} found"
   when: '"{{ appsvcs_ver }}" in (iapps_list.content|from_json)["items"]'
 ```

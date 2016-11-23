@@ -4,11 +4,11 @@ Maybe you want to use auth tokens, maybe you don't. Either way we're going to us
 
 You will notice a few new options:
 
-`  method: POST
-
+```
+  method: POST
   body: { "username":"{{ username }}", "password":"{{ password }}", "loginProviderName":"tmos" }
-
-  body_format: json`
+  body_format: json
+```
 
 `method:` we need to say its a HTTP POST
 
@@ -18,15 +18,17 @@ You will notice a few new options:
 
 Another change you may have noticed, we are being more specific with the object in the JSON response. First we print out the 'entire' response with:
 
-`  - name: Full output
-
-    debug: msg={{ (auth_token.content|from_json) }}`
+```  
+- name: Full output
+  debug: msg={{ (auth_token.content|from_json) }}
+```
 
 Next, we provide an example of just selecting the 'token' object from the JSON response using:
 
-`  - name: Return the token
-
-  debug: msg={{(auth_token.content|from_json)["token"]["token"]}}`
+```
+- name: Return the token
+  debug: msg={{(auth_token.content|from_json)["token"]["token"]}}
+```
 
 Note the reference to '["token"]["token"]'. If you look at the structure of the JSON payload from the 'Full output', you will see how the JSON structure reflects this, and how the reference to '["token"]["token"]' gets the correct data.
 

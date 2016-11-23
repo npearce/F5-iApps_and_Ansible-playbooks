@@ -8,9 +8,10 @@ Reviewing the playbook, in the section '- name: Perform the installation!', we i
 
 `get_url:` has a source and destination allowing us to fetch something from a remote HTTP URL and push that object to our BIG-IP:
 
-`url: "{{ appsvcs_source }}"
-
-dest: /var/tmp/`
+```
+url: "{{ appsvcs_source }}"
+dest: /var/tmp/
+```
 
 If you read the notes at the beginning of 'BIG-IP/03-bigip-install_iapp.yml' you will see that we provide an example for '{{ appsvcs_source }}' which is an iApp on GitHub.
 
@@ -25,7 +26,7 @@ Finally, we perform a cleanup by removing the iApp that we placed into '/var/tmp
 ##Create a new Job Template
 1. Navigate to the 'Job Templates' section.
 2. Click the green '+ADD' button.
-3. Enter the name *myTemplate-03*.
+3. Enter the name **myTemplate-03**.
 4. Leave the default job type as 'Run'.
 5. For 'Inventory', click the magnifying glass. From the window that appears, select 'myInventory' and click 'save'.
 6. For 'Project', click the magnifying glass and select 'myProject'.
@@ -34,15 +35,13 @@ Finally, we perform a cleanup by removing the iApp that we placed into '/var/tmp
 9. Leave verbosity set as '0 (Normal)'.
 10. Remember to add the required variables in again, referenced in the comments at the top of the playbook:
 
-`username:
-
+```
+username:
 password:
-
 appsvcs_file:
-
 appsvcs_source:
-
-appsvcs_ver:`
+appsvcs_ver:
+```
 
 
 11. Click 'Save'.
