@@ -31,18 +31,14 @@ First lets review the working parts of the playbook:
 https://github.com/npearce/F5-iApps_and_Ansible-playbooks/blob/master/BIG-IP/01-bigip-list_service_templates-part1.yml
 
 This part performs the request:
-`uri:
-
+```
+uri:
    url: https://{{inventory_hostname}}/mgmt/tm/cloud/templates/iapp/
-
    validate_certs: no
-
    user: admin
-
    password: password
-
-   return_content: yes`
-
+   return_content: yes
+```
 This part stores the response in 'iapps_list':
 
 `  register: iapps_list`
@@ -102,9 +98,9 @@ when: '"f5.http" in (iapps_list.content|from_json)["items"]'`
 
 *Negative check:*  The second evaluation we are performing against the response it to check if the response 'DOES NOT' include something. Notice the `not` in the `when:` statement below.  
 
-`debug: msg="'f5.http' iApp not found"
-
-when: '"f5.http" not in (iapps_list.content|from_json)["items"]'`
+```debug: msg="'f5.http' iApp not found"
+when: '"f5.http" not in (iapps_list.content|from_json)["items"]'
+```
 
 More on these later...
 
@@ -115,9 +111,9 @@ More on these later...
 4. Scroll down to 'Extra Variables'.
 5. After the `---`, on new lines, enter the "key: value" pairs (assuming your username is 'admin' and password is 'admin'):
 
-`username: admin
-
-password: admin`
+```username: admin
+password: admin
+```
 
 6. Click 'Save'
 7. Scroll down and execute the Job Template (Rocket Ship icon) next to: 'myTemplate-01'
@@ -128,11 +124,10 @@ You should see a far more concise response.
 #Exercise 1 – Part 3 - More variables
 In "BIG-IP/01-bigip-list_service_templates-part3.yml" we're combining a variable to the BIG-IP response handling, '{{ appsvcs_ver }}'. By doing this, we no longer have the [something] of 'Part 2' hard-coded into the playbook. Instead we can pass the '{{ appsvcs_ver }}' in at execution time. As your playbooks get longer, and more complex, these shortcuts become increasingly important. Note how many times '{{ appsvcs_ver }}' is referenced in this single playbook task:
 
-`  - name: Check {{ appsvcs_ver }} IS in response
-
+```- name: Check {{ appsvcs_ver }} IS in response
   debug: msg="{{ appsvcs_ver }} found"
-
-  when: '"{{ appsvcs_ver }}" in (iapps_list.content|from_json)["items"]'`
+  when: '"{{ appsvcs_ver }}" in (iapps_list.content|from_json)["items"]'
+```
 
 You will note, once again, the comments at the top of this playbook informing you which variables are expected for execution:
 https://github.com/npearce/F5-iApps_and_Ansible-playbooks/blob/master/BIG-IP/01-bigip-list_service_templates-part3.yml
