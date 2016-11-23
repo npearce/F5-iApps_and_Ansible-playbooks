@@ -1,6 +1,8 @@
 ---
 ###### Variables to be passed to this playbook ######
 #
+#  username: [BIG-IP username]
+#  password: [BIG-IP password]
 #  appsvcs_file: [iApp file name]
 #  appsvcs_source: [URL to the iApp]
 #  appsvcs_ver: [iApp version as reported via BIG-IP REST API]
@@ -13,7 +15,7 @@
 # Author: Nathan Pearce
 ###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
 
-- name: Check {{ appsvcs _ver }} isn't already there
+- name: Check {{ appsvcs_ver }} isn't already there
   connection: local
   gather_facts: no
   hosts: bigips

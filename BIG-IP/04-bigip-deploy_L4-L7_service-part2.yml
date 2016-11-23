@@ -3,11 +3,16 @@
 #
 #  username: [BIG-IP username]
 #  password: [BIG-IP password]
-#  inventory_hostname: This is a built-on variable. You don't need to pass this in.
+#  service_name: You need to give this top level object a name.
+#  virtual_ip_address: [the front end IP of the load-balancing pool]
+#
+#  Web_Servers: you require an inventory group with pool member list
 #
 #  Examples:
 #  username: admin
 #  password: admin
+#  service_name: myHTTP_Service
+#  virtual_ip_address: 10.128.10.20
 #
 # Author: Nathan Pearce
 ###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
@@ -35,7 +40,7 @@
       when: '"{{ service_name }}" not in (service_list.content|from_json)["items"]'
 
     - name: build the JSON payload
-      template: src=/var/lib/awx/projects/_6__myproject/BIG-IP/template_deploy.j2 dest=/var/lib/awx/projects/_6__myproject/BIG-IP/deploy_payload.yml
+      template: src={{ playbook_dir }}/template_deploy.j2 dest={{ playbook_dir }}/deploy_payload.yml
 
 - name: Deploy L4-L7 Services
   hosts: bigips
@@ -48,7 +53,7 @@
       method: POST
       user: "{{ username }}"
       password: "{{ password }}"
-      body: "{{ (lookup('template','/var/lib/awx/projects/_6__myproject/BIG-IP/deploy_payload.yml') | from_yaml) }}"
+      body: "{{ (lookup('template','{{ playbook_dir }}/deploy_payload.yml') | from_yaml) }}"
       return_content: yes
       body_format: json
     register: post_response

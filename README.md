@@ -93,4 +93,4 @@ NOTE: You can leave the password blank and check 'Ask at runtime?', if you prefe
 6. If everything worked you should see "Successful" in the top right, and out of the "Hello World!" playbook on the right.
 
 If 'Step 5' failed then something must be wrong with your Ansible config. Maybe try a re-install?
-If successful, navigate to the README.md in the ./BIG-IP subdirectory and continue to "Exercise #1"
+If successful, navigate to the 01-README.md in the ./BIG-IP subdirectory and continue to "Exercise 1"
