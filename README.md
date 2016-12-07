@@ -102,7 +102,7 @@ http://docs.ansible.com/ansible-tower/latest/html/userguide/credentials.html
 3. Next to 'myTestTemplate', click the Rocket Ship icon (to execute the playbook).
 4. You will be presented a new window showing 'Results' and 'Standard Out'.
 5. If its not already finished, wait a few seconds and then reload the page.
-6. If everything worked you should see "Successful" in the top right, and out of the "Hello World!" playbook on the right.
+6. If everything worked you should see "Successful" in the top left, and output of the "Hello World!" playbook on the right.
 
 If 'Step 5' failed then something must be wrong with your Ansible config. Maybe try a re-install?
 If successful, navigate to the 01-README.md in the ./BIG-IP subdirectory and continue to "Exercise 1"

@@ -9,7 +9,7 @@
 #
 #  Examples:
 #  appsvcs_file: appsvcs_integration_v2.0-001_001.tmpl
-#  appsvcs_source: https://raw.githubusercontent.com/npearce/F5-iWorkflow_Ansible-playbooks/master/appsvcs_integration_v2.0-001_001.tmpl
+#  appsvcs_source: http://appsvcs-integration-iapp.readthedocs.io/en/v2.0_001/_static/appsvcs_integration_v2.0-002_001.tmpl
 #  appsvcs_ver: appsvcs_integration_v2.0_001
 #
 # Author: Nathan Pearce
