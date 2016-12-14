@@ -151,5 +151,28 @@ Note how 'Prompt on launch' enables the administrator to edit the variables just
 
 Unless you had already manually installed the 'appsvcs_integration_v2.0_001-001.tmpl' from GitHub, it will report 'Note found'. Installing this template is covered in "Exercise 4".
 
+#Exercise 1 - Part 4 - Handling appsvcs_integration versions
+Thus far we have been specifying an exact iApp version, which is fine as a one-off but, now its time to handle versions better. Handling this now will make life easier later.
+
+##Switch playbooks and edit the variables
+1. Navigate to the 'myTemplate-01' Job Template
+2. From the playbook list, select: "BIG-IP/01-bigip-list_service_templates-part4.yml"
+3. Scroll down to 'Extra Variables' and replace the current entries with the following:
+
+```
+username: admin
+password: admin
+appsvcs_major: "2.0"
+appsvcs_pres: "001"
+appsvcs_ver: appsvcs_integration_v{{ appsvcs_major }}_{{ appsvcs_pres }}
+```
+
+4. Click 'Save'
+5. Execute the Job (Rocket Ship).
+
+An iApp name contains version numbers for both the implementation layer (major and minor version) and the presentation layer. When we retrieve a list of iApps from the BIG-IP the implementation layer minor version is omitted. For example, if you installed the iApp "appsvcs_integration_v2.0-002_001.tmpl", the JSON response when retrieving a list of iApps would show "appsvcs_integration_v2.0_001".
+For more on appsvcs_integration versions please read: http://appsvcs-integration-iapp.readthedocs.io/en/latest/design.html#versioning
+
+
 *Optional exercise:*
 Run the same playbook again but providing an iApp we know exists. For example, "f5.http". This should will report 'f5.http found'. Note that we did no re-write any of the playbook to achieve this.

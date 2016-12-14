@@ -8,7 +8,9 @@
 #  Examples:
 #  username: admin
 #  password: admin
-#  appsvcs_ver: appsvcs_integration_v2.0_001
+#  appsvcs_major: "2.0"
+#  appsvcs_pres: "001"
+#  appsvcs_ver: appsvcs_integration_v{{ appsvcs_major }}_{{ appsvcs_pres }}
 #
 # Author: Nathan Pearce
 ###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######

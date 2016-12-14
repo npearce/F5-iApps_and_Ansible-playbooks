@@ -15,6 +15,7 @@
 - name: Request Auth Token
   hosts: bigips
   connection: local
+  gather_facts: no
   tasks:
   - name: Posting Credentials
     uri:

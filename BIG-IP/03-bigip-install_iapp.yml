@@ -3,14 +3,30 @@
 #
 #  username: [BIG-IP username]
 #  password: [BIG-IP password]
+#  appsvcs_major: [iApp Implementation Layer Major Version Number]
+#  appsvcs_minor: [iApp Implementation Layer Minor Version Number]
+#  appsvcs_pres: [iApp Presentation Layer Version Number]
 #  appsvcs_file: [iApp file name]
 #  appsvcs_source: [URL to the iApp]
 #  appsvcs_ver: [iApp version as reported via BIG-IP REST API]
 #
+#
 #  Examples:
-#  appsvcs_file: appsvcs_integration_v2.0-001_001.tmpl
-#  appsvcs_source: http://appsvcs-integration-iapp.readthedocs.io/en/v2.0_001/_static/appsvcs_integration_v2.0-002_001.tmpl
-#  appsvcs_ver: appsvcs_integration_v2.0_001
+#  username: admin
+#  password: admin
+#  appsvcs_major: "2.0"
+#  appsvcs_minor: "002"
+#  appsvcs_pres: "001"
+#  appsvcs_file: appsvcs_integration_v{{ appsvcs_major }}-{{ appsvcs_minor }}_{{ appsvcs_pres }}.tmpl
+#  appsvcs_source: http://appsvcs-integration-iapp.readthedocs.io/en/v2.0_001/_static/appsvcs_integration_v{{ appsvcs_major }}-{{ appsvcs_minor }}_{{ appsvcs_pres }}.tmpl
+#  appsvcs_ver: appsvcs_integration_v{{ appsvcs_major }}_{{ appsvcs_pres }}
+#
+#
+#  In the above example, "appsvcs_integration_v{{ appsvcs_major }}-{{ appsvcs_minor }}_{{ appsvcs_pres }}.tmpl" returns,
+#  "appsvcs_integration_v2.0-002_001.tmpl"
+#
+#
+#  For more imformation on iApp versions, read: http://appsvcs-integration-iapp.readthedocs.io/en/latest/design.html#versioning
 #
 # Author: Nathan Pearce
 ###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######

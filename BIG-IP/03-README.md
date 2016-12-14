@@ -23,6 +23,24 @@ Following the 'tmsh' installation command, we then verify that the newly install
 
 Finally, we perform a cleanup by removing the iApp that we placed into '/var/tmp' using the 'get_url:' command earlier.
 
+***IMPORTANT*** Note the Major and Minor Implementation versions, and the Presentation version of the appsvcs_integration iApp in this playbook.
+
+```
+username: admin
+password: admin
+appsvcs_major: "2.0"
+appsvcs_minor: "002"
+appsvcs_pres: "001"
+appsvcs_source: http://10.128.1.141:81/snetops/F5-ansible_iapp/raw/master/appsvcs_integration_v{{ appsvcs_major }}-{{ appsvcs_minor }}_{{ appsvcs_pres }}.tmpl
+appsvcs_ver: appsvcs_integration_v{{ appsvcs_major }}_{{ appsvcs_pres }}
+appsvcs_file: appsvcs_integration_v{{ appsvcs_major }}-{{ appsvcs_minor }}_{{ appsvcs_pres }}.tmpl
+```
+
+**Why is {{ appsvcs_minor }} not always used?**
+An iApp name contains version numbers for both the implementation layer (major and minor version) and the presentation layer. When we retrieve a list of iApps from the BIG-IP, the implementation layer minor version is omitted. For example, if you installed the iApp "appsvcs_integration_v2.0-002_001.tmpl", the JSON response when retrieving a list of iApps would show "appsvcs_integration_v2.0_001"
+For more on appsvcs_integration versions please read: http://appsvcs-integration-iapp.readthedocs.io/en/latest/design.html#versioning
+
+
 ##Create a new Job Template
 1. Navigate to the 'Job Templates' section.
 2. Click the green '+ADD' button.
