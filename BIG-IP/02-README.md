@@ -39,7 +39,7 @@ Note the reference to '["token"]["token"]'. If you look at the structure of the 
 4. Leave the default job type as 'Run'.
 5. For 'Inventory', click the magnifying glass. From the window that appears, select 'myInventory' and click 'save'.
 6. For 'Project', click the magnifying glass and select 'myProject'.
-7. For 'Playbook', select 'BIG-IP/02-bigip-get_auth_token.yml'
+7. For 'Playbook', select 'BIG-IP/02-bigip-get_auth_token-part1.yml'
 8. For 'Machine Credential' click the magnifying glass and select 'bigips'.
 9. Leave verbosity set as '0 (Normal)'.
 10. Remember to add the username and password variables in again, as per the notes at the top of the playbook.
@@ -52,3 +52,20 @@ Note the difference between the 'TASK [Full output]' and 'TASK [Return the token
 #Exercise 2 - Part 2 - Using an auth token
 Well, now we asked for an Auth Token we may as well use it!
 In this playbook we are going to use the 'request auth token' taks and then perform a second action that uses the Auth Token (instead of username and password) to extend the default auth token timeout.
+
+##Switch to the 'part2' playbook:
+1. Navigate to 'Job Templates'.
+2. Click on our existing 'myTemplate-02'.
+3. For playbook, select 'BIG-IP/02-bigip-get_auth_token-part2.yml'
+4. Scroll down to 'Extra Variables'.
+5. After the 'username: and password:' variables added earlier, on a new line, add `token_timeout: 36000`. It should now look like:
+
+```
+---
+username: admin
+password: admin
+token_timeout: 36000
+```
+
+6. Click 'Save'
+7. Scroll down and execute the Job Template (Rocket Ship icon) next to: 'myTemplate-01'
