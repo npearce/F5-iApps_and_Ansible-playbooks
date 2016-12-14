@@ -170,9 +170,11 @@ appsvcs_ver: appsvcs_integration_v{{ appsvcs_major }}_{{ appsvcs_pres }}
 4. Click 'Save'
 5. Execute the Job (Rocket Ship).
 
+**Important**
 An iApp name contains version numbers for both the implementation layer (major and minor version) and the presentation layer. When we retrieve a list of iApps from the BIG-IP the implementation layer minor version is omitted. For example, if you installed the iApp "appsvcs_integration_v2.0-002_001.tmpl", the JSON response when retrieving a list of iApps would show "appsvcs_integration_v2.0_001".
 For more on appsvcs_integration versions please read: http://appsvcs-integration-iapp.readthedocs.io/en/latest/design.html#versioning
 
+Unless you had already installed the iApp manually, the playbook will come back `"msg": "'appsvcs_integration_v2.0_001' not found"` but note that it correctly assembled the version number variables to produce the correct name 'appsvcs_integration_v2.0_001'. We'll use this more later!
 
 *Optional exercise:*
 Run the same playbook again but providing an iApp we know exists. For example, "f5.http". This should will report 'f5.http found'. Note that we did no re-write any of the playbook to achieve this.

@@ -1,5 +1,4 @@
-
-#Exercise 2 - Request an auth token
+#Exercise 2 - Part 1 - Request an auth token
 Maybe you want to use auth tokens, maybe you don't. Either way we're going to use the Auth Token to demonstrate a simple REST API POST. Take a look at 'BIG-IP/02-bigip-get_auth_token.yml': https://github.com/npearce/F5-iApps_and_Ansible-playbooks/blob/master/BIG-IP/02-bigip-get_auth_token.yml
 
 You will notice a few new options:
@@ -49,3 +48,7 @@ Note the reference to '["token"]["token"]'. If you look at the structure of the 
 
 ##Review
 Note the difference between the 'TASK [Full output]' and 'TASK [Return the token]'.
+
+#Exercise 2 - Part 2 - Using an auth token
+Well, now we asked for an Auth Token we may as well use it!
+In this playbook we are going to use the 'request auth token' taks and then perform a second action that uses the Auth Token (instead of username and password) to extend the default auth token timeout.
