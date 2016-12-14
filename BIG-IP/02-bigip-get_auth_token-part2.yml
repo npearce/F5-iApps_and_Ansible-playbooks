@@ -14,6 +14,15 @@
 # Author: Nathan Pearce
 ###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
 
+
+#  Examples:
+#  username: admin
+#  password: admin
+#  token_timeout: 36000
+#
+# Author: Nathan Pearce
+###### https://github.com/npearce/F5-iApps_and_Ansible-playbooks ######
+
 - name: Request Auth Token
   hosts: bigips
   connection: local
@@ -39,11 +48,12 @@
   - name: Return the token
     debug: msg={{(auth_token.content|from_json)["token"]["token"]}}
 
+# Using the newly acquired token, PATCH the tokens timeout attribute.
   - name: Increase token timeout
     uri:
       url: https://{{ inventory_hostname }}/mgmt/shared/authz/tokens/{{(auth_token.content|from_json)["token"]["token"]}}
       validate_certs: no
-      HEADER_X-F5-Auth-Token: {{(auth_token.content|from_json)["token"]["token"]}}
+      HEADER_X-F5-Auth-Token: "{{ (auth_token.content|from_json)['token']['token'] }}"
       method: PATCH
       body: { "timeout":"{{ token_timeout }}" }
       return_content: yes
@@ -52,4 +62,4 @@
 
 # Of the response, print only the new timeout
   - name: Return the new timeout
-    debug: msg={{(timeout.content|from_json)["token"]["timeout"]}}
+    debug: msg={{(timeout.content|from_json)["timeout"]}}

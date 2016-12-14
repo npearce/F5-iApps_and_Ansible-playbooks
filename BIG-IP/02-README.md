@@ -69,3 +69,7 @@ token_timeout: 36000
 
 6. Click 'Save'
 7. Scroll down and execute the Job Template (Rocket Ship icon) next to: 'myTemplate-01'
+
+Note in the playbook 'BIG-IP/02-bigip-get_auth_token-part2.yml' that the 'Increase token timeout' play does NOT have username or password. This is because the Auth Token us providing our authentication. This is achieved using:
+
+`HEADER_X-F5-Auth-Token: "{{ (auth_token.content|from_json)['token']['token'] }}"`
