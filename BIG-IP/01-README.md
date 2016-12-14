@@ -149,7 +149,7 @@ We must now add the variable: 'appsvcs_ver'
 
 Note how 'Prompt on launch' enables the administrator to edit the variables just prior to execution.
 
-Unless you had already manually installed the 'appsvcs_integration_v2.0_001-001.tmpl' from GitHub, it will report 'Note found'. Installing this template is covered in "Exercise 4".
+Unless you had already manually installed the 'appsvcs_integration_v2.0_001-001.tmpl' from GitHub, it will report 'Note found'. Installing this template is covered in "Exercise 3".
 
 #Exercise 1 - Part 4 - Handling appsvcs_integration versions
 Thus far we have been specifying an exact iApp version, which is fine as a one-off but, now its time to handle versions better. Handling this now will make life easier later.
@@ -172,6 +172,7 @@ appsvcs_ver: appsvcs_integration_v{{ appsvcs_major }}_{{ appsvcs_pres }}
 
 **Important**
 An iApp name contains version numbers for both the implementation layer (major and minor version) and the presentation layer. When we retrieve a list of iApps from the BIG-IP the implementation layer minor version is omitted. For example, if you installed the iApp "appsvcs_integration_v2.0-002_001.tmpl", the JSON response when retrieving a list of iApps would show "appsvcs_integration_v2.0_001".
+
 For more on appsvcs_integration versions please read: http://appsvcs-integration-iapp.readthedocs.io/en/latest/design.html#versioning
 
 Unless you had already installed the iApp manually, the playbook will come back `"msg": "'appsvcs_integration_v2.0_001' not found"` but note that it correctly assembled the version number variables to produce the correct name 'appsvcs_integration_v2.0_001'. We'll use this more later!
